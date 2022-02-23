@@ -135,13 +135,13 @@ namespace FiorellaBackToFrontProject.Areas.AdminPanel.Controllers
             if (!ModelState.IsValid)
                 return View(existSliderImage);
 
-            if (!sliderImage.Photos[0].IsImage())
+            if (!sliderImage.Photo.IsImage())
             {
                 ModelState.AddModelError("Photos", "Please upload image format");
                 return View(existSliderImage);
             }
 
-            if (!sliderImage.Photos[0].IsAllowedSize(1))
+            if (!sliderImage.Photo.IsAllowedSize(1))
             {
                 ModelState.AddModelError("Photos", "Max upload size must be smaller than 1 MB");
                 return View(existSliderImage);
@@ -153,7 +153,7 @@ namespace FiorellaBackToFrontProject.Areas.AdminPanel.Controllers
                 System.IO.File.Delete(path);
             }
                 
-            var fileName = await sliderImage.Photos[0].GenerateFile(Constants.ImageFolderPath);
+            var fileName = await sliderImage.Photo.GenerateFile(Constants.ImageFolderPath);
             existSliderImage.Name = fileName;
             await _dbContext.SaveChangesAsync();
 
